@@ -11,13 +11,16 @@ export async function GET(
       return new NextResponse("Category ID is required", { status: 400 });
     }
 
-    const categories = await prismadb.category.findUnique({
+    const category = await prismadb.category.findUnique({
       where: {
         id: params.categoryId,
       },
+      include: {
+        billboard: true,
+      },
     });
 
-    return NextResponse.json(categories);
+    return NextResponse.json(category);
   } catch (error) {
     console.log("[CATEGORIES_GET]", error);
     return new NextResponse("Internal Server Error", { status: 500 });
