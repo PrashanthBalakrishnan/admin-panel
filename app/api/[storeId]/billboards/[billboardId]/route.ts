@@ -31,8 +31,8 @@ export async function PATCH(
   try {
     const { userId } = auth();
     const body = await req.json();
-
-    const { label, imageUrl } = body;
+    console.log("this is body!!!!!!!!!!!!! " + body);
+    const { label, imageUrl, textColor } = body;
     if (!userId) {
       return new NextResponse("Unauthenticated", { status: 401 });
     }
@@ -42,6 +42,10 @@ export async function PATCH(
     if (!imageUrl) {
       return new NextResponse("imageUrl is required", { status: 400 });
     }
+    if (!textColor) {
+      return new NextResponse("textColor is required", { status: 400 });
+    }
+
     if (!params.billboardId) {
       return new NextResponse("billboard ID is required", { status: 400 });
     }
@@ -64,6 +68,7 @@ export async function PATCH(
       data: {
         label,
         imageUrl,
+        textColor,
       },
     });
 
@@ -91,7 +96,6 @@ export async function DELETE(
     if (!params.billboardId) {
       return new NextResponse("billboard ID is required", { status: 400 });
     }
-
     const storeByUserId = await prismadb.store.findFirst({
       where: {
         id: params.storeId,

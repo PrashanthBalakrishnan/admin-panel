@@ -18,6 +18,7 @@ const BillboardsPage = async ({ params }: { params: { storeId: string } }) => {
     id: item.id,
     label: item.label,
     createdAt: format(item.createdAt, "MMMM do, yyyy"),
+    textColor: item.textColor,
   }));
   return (
     <div className="flex-col">

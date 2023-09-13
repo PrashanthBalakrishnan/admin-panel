@@ -28,6 +28,7 @@ import ImageUpload from "@/components/ui/ImageUpload";
 const formSchema = z.object({
   label: z.string().min(1),
   imageUrl: z.string().min(1),
+  textColor: z.optional(z.string().min(1)),
 });
 
 type BillboardFormValues = z.infer<typeof formSchema>;
@@ -55,10 +56,12 @@ const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => {
     defaultValues: initialData || {
       label: "",
       imageUrl: "",
+      textColor: "",
     },
   });
 
   const onSubmit = async (values: BillboardFormValues) => {
+    console.log(values);
     try {
       setLoading(true);
       if (initialData) {
@@ -156,6 +159,29 @@ const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => {
                       placeholder="Billboard label"
                       {...field}
                     />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="textColor"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Hex Color</FormLabel>
+                  <FormControl>
+                    <div className="flex items-center gap-x-4">
+                      <Input
+                        disabled={loading}
+                        placeholder="Color value"
+                        {...field}
+                      />
+                      <div
+                        className="border p-4 rounded-full"
+                        style={{ backgroundColor: field.value }}
+                      />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
